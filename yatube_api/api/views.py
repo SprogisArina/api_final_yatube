@@ -1,14 +1,15 @@
 
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
+from rest_framework import permissions, viewsets
 
+from api.mixins import PermissionMixin
 from api.serializers import (
     CommentSerializer, FollowSerializer, GroupSerializer, PostSerializer
 )
 from posts.models import Group, Post
 
 
-class PostViewSet(viewsets.ModelViewSet):
+class PostViewSet(PermissionMixin, viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -21,7 +22,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = GroupSerializer
 
 
-class CommentViewSet(viewsets.ModelViewSet):
+class CommentViewSet(PermissionMixin, viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
     def get_post_id_from_url(self):
@@ -43,6 +44,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 class FollowViewSet(viewsets.ModelViewSet):
     serializer_class = FollowSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     # get_queryset
     # router
