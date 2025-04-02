@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import (
 
 from api.views import CommentViewSet, FollowViewSet, GroupViewSet, PostViewSet
 
-token_urlpetterns = [
+token_urlpatterns = [
     path('', TokenObtainPairView.as_view(), name='token_obtain'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('verify/', TokenVerifyView.as_view(), name='token_verify'),
@@ -20,11 +20,12 @@ v1_router.register(
 v1_router.register('posts', PostViewSet, basename='posts')
 v1_router.register('follow', FollowViewSet, basename='follow')
 
-v1_urlpetterns = [
-    path('token/', include(token_urlpetterns)),
-    path('', include(v1_router))
+v1_urlpatterns = [
+    # path('token/', include(token_urlpatterns)),
+    path('', include('djoser.urls.jwt')),
+    path('', include(v1_router.urls))
 ]
 
 urlpatterns = [
-    path('v1/', include(v1_urlpetterns))
+    path('v1/', include(v1_urlpatterns))
 ]
