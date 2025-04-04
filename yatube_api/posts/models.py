@@ -28,7 +28,7 @@ class Post(models.Model):
     )
 
     class Meta:
-        ordering = ('pub_date',)
+        ordering = ('-pub_date',)
 
     def __str__(self):
         return self.text[:MAX_TEXT_LENGTH]
@@ -57,6 +57,6 @@ class Follow(models.Model):
             ),
             models.CheckConstraint(
                 check=~models.Q(user=models.F('following')),
-                name='self-following'
+                name='self_following'
             )
         ]
