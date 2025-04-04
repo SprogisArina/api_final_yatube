@@ -20,6 +20,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='follow',
-            constraint=models.CheckConstraint(check=models.Q(('user', models.F('following')), _negated=True), name='self_following'),
+            constraint=models.CheckConstraint(check=models.Q(('user', models.F('following')), _negated=True), name='self-following'),
         ),
     ]
