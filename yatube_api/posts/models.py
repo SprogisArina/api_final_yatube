@@ -53,8 +53,7 @@ class Follow(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=('user', 'following'),
-                name='unique_follower',
-                violation_error_message='Подписка уже существует!'
+                name='unique_follower'
             ),
             models.CheckConstraint(
                 check=~models.Q(user=models.F('following')),
