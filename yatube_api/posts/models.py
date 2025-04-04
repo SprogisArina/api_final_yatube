@@ -57,7 +57,6 @@ class Follow(models.Model):
             ),
             models.CheckConstraint(
                 check=~models.Q(user=models.F('following')),
-                name='self-following',
-                violation_error_message='Нельзя подписаться на себя!'
+                name='self-following'
             )
         ]
