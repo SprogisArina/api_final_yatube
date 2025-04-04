@@ -28,7 +28,7 @@ class Post(models.Model):
     )
 
     class Meta:
-        ordering = ('pub_date',)
+        ordering = ('-pub_date',)
 
     def __str__(self):
         return self.text[:MAX_TEXT_LENGTH]
@@ -49,13 +49,14 @@ class Follow(models.Model):
         User, on_delete=models.CASCADE, related_name='following')
     following = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    # class Meta:
-    #     constraints = [
-    #         models.UniqueConstraint(
-    #             fields=('user', 'following'),
-    #             name='unique_follower'
-    #         ),
-    #         models.CheckConstraint(
-                
-    #         )
-    #     ]
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=('user', 'following'),
+                name='unique_follower'
+            ),
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('following')),
+                name='self_following'
+            )
+        ]
